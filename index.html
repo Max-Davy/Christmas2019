@@ -1,0 +1,133 @@
+an3tom
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Merry Christmas!</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #btnPrintout {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            z-index: 3;
+            color: white;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+        
+        #pictureContainer {
+            background-image: url("./step1.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: auto;
+            height: auto;
+            height: 90%;
+            width: 90%;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0);
+        }
+        
+        #spinner {
+            color: white;
+            z-index: 1;
+            position: absolute;
+            top: calc(50% - 60px);
+            left: calc(50% - 60px);
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+        }
+        /* Safari */
+        
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        a {
+            color: DodgerBlue;
+        }
+    </style>
+    <script type="text/javascript">
+        function changeImage() {
+            var img = document.getElementById('pictureContainer');
+            style = img.currentStyle || window.getComputedStyle(img, false);
+            imageurl = style.backgroundImage.replace('url(', '').replace(')', '');
+            if (imageurl.includes("step1.png")) {
+                document.getElementById("pictureContainer").style.backgroundImage = 'url("./step2.png")';
+                console.log("card opened");
+            } else {
+                document.getElementById("pictureContainer").style.backgroundImage = 'url("./step1.png")';
+                console.log("card closed");
+            }
+        }
+
+        function getName() {
+            console.log("get name ran");
+            if (getParameterByName("name") == null) {
+                document.getElementById("btnPrintout").style.display = 'none';
+                console.log("hidden because null");
+            } else if (!getParameterByName("name")) {
+                document.getElementById("btnPrintout").style.display = 'none';
+                console.log("hidden because empty");
+            } else {
+                console.log(getParameterByName("name"));
+                document.getElementById("name").innerHTML = getParameterByName("name");
+            }
+            console.log("Why not have fun changing the url parameter 'name'?");
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            console.log("parameter decoded");
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        document.addEventListener("DOMContentLoaded", function(event) {
+            getName();
+        });
+    </script>
+</head>
+
+<body onload="getName();">
+    <div id="btnPrintout"><em>Dear </em><em id="name">Visitor</em><em>, thanks for checking out my card. Click the card to open/close. Click <a href="./card.pdf" target="_blank">here</a> to download a printable version.</em></div>
+    <div id="pictureContainer" onclick="changeImage();"></div>
+    <div id="spinner"></div>
+</body>
+
+</html>
