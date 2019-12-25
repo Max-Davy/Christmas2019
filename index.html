@@ -7,9 +7,8 @@ an3tom
     <title>Merry Christmas!</title>
     <style>
         @font-face {
-            font-family: 'handwriting';
-            src: url('/Font/handwriting.eot?#iefix') format('embedded-opentype'), url('/Font/handwriting.ttf') format('truetype'), url('/Font/handwriting.svg#Handwriting') format('svg');
-            src: url('/Font/handwriting.ttf');
+            font-family: 'Handwriting';
+            src: url('./Font/Handwriting.ttf');
         }
         
         body {
@@ -25,7 +24,6 @@ an3tom
             z-index: 3;
             color: white;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            font-family: handwriting;
         }
         
         #pictureContainer {
@@ -44,6 +42,23 @@ an3tom
             transform: translate(-50%, -50%);
             z-index: 2;
             background-color: rgba(255, 255, 255, 0);
+        }
+        
+        #insideText {
+            margin: 0;
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            color: rgb(122, 68, 52);
+            font-family: Handwriting !important;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            font-size: 30pt;
         }
         
         #spinner {
@@ -92,26 +107,27 @@ an3tom
             imageurl = style.backgroundImage.replace('url(', '').replace(')', '');
             if (imageurl.includes("step1.png")) {
                 document.getElementById("pictureContainer").style.backgroundImage = 'url("./step2.png")';
+                document.getElementById("insideText").style.display = "block";
                 console.log("card opened");
             } else {
                 document.getElementById("pictureContainer").style.backgroundImage = 'url("./step1.png")';
+                document.getElementById("insideText").style.display = "none";
                 console.log("card closed");
             }
         }
 
         function getName() {
-            console.log("get name ran");
-            if (getParameterByName("name") == null) {
-                document.getElementById("btnPrintout").style.display = 'none';
-                console.log("hidden because null");
-            } else if (!getParameterByName("name")) {
-                document.getElementById("btnPrintout").style.display = 'none';
-                console.log("hidden because empty");
-            } else {
-                console.log(getParameterByName("name"));
-                document.getElementById("name").innerHTML = getParameterByName("name");
+            var name = getParameterByName("name") || "";
+            var text = getParameterByName("text") || "";
+            var response = "Wishing you a merry Christmas and blessed new year,<br>Max"
+
+            if (text) {
+                response = text
+            } else if (name) {
+                response = "Dear " + name + ",<br>" + response
             }
-            console.log("Why not have fun changing the url parameter 'name'?");
+
+            document.getElementById("insideText").innerHTML = response;
         }
 
         function getParameterByName(name, url) {
@@ -132,8 +148,9 @@ an3tom
 </head>
 
 <body onload="getName();">
-    <div id="btnPrintout"><em>Dear </em><em id="name">Visitor</em><em>, thanks for checking out my card. Click the card to open/close. Click <a href="./card.pdf" target="_blank">here</a> to download a printable version.</em></div>
+    <div id="btnPrintout">Click card to open and close.<br><a href="./card.pdf" target="_blank">Downloadable Version</a></div>
     <div id="pictureContainer" onclick="changeImage();"></div>
+    <div id="insideText" onclick="changeImage();" style="display:none;">Hello There</div>
     <div id="spinner"></div>
 </body>
 
