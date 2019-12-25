@@ -124,7 +124,8 @@ an3tom
             if (text) {
                 response = text
             } else if (name) {
-                response = "Dear " + name + ",<br>" + response
+                response = "Dear " + name + ",<br>" + response;
+                document.title = "Merry Christmas, " + name + "!"
             }
 
             document.getElementById("insideText").innerHTML = response;
