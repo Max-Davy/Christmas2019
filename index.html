@@ -59,6 +59,7 @@ an3tom
             -ms-user-select: none;
             user-select: none;
             font-size: 30pt;
+            max-width: 40%;
         }
         
         #spinner {
@@ -101,6 +102,8 @@ an3tom
         }
     </style>
     <script type="text/javascript">
+        var loaded = false;
+
         function changeImage() {
             var img = document.getElementById('pictureContainer');
             style = img.currentStyle || window.getComputedStyle(img, false);
@@ -117,22 +120,27 @@ an3tom
         }
 
         function getName() {
-            var name = getParameterByName("name") || "";
-            var text = getParameterByName("text") || "";
-            var response = "Wishing you a merry Christmas and blessed new year,<br>Max"
+            if (!loaded) {
+                loaded = 1;
+                var name = getParameterByName("name") || "";
+                var text = getParameterByName("text") || "";
+                var response = "Wishing you a merry Christmas and blessed new year,<br>Max"
 
-            window.history.replaceState({
-                page: 1
-            }, document.title, "/Christmas2019/");
+                try {
+                    window.history.replaceState({
+                        page: 1
+                    }, document.title, "/Christmas2019/");
+                } catch (e) {}
 
-            if (text) {
-                response = text
-            } else if (name) {
-                response = "Dear " + name + ",<br>" + response;
-                document.title = "Merry Christmas, " + name + "!"
+                if (text) {
+                    response = text
+                } else if (name) {
+                    response = "Dear " + name + ",<br>" + response;
+                    document.title = "Merry Christmas, " + name + "!"
+                }
+
+                document.getElementById("insideText").innerHTML = response;
             }
-
-            document.getElementById("insideText").innerHTML = response;
         }
 
         function getParameterByName(name, url) {
@@ -154,7 +162,7 @@ an3tom
 <body onload="getName();">
     <div id="btnPrintout">Click card to open and close.<br><a href="./card.pdf" target="_blank">Downloadable Version</a></div>
     <div id="pictureContainer" onclick="changeImage();"></div>
-    <div id="insideText" onclick="changeImage();" style="display:none;">Hello There</div>
+    <div id="insideText" onclick="changeImage();" style="display:none;">Wishing you a merry Christmas and blessed new year,<br>Max</div>
     <div id="spinner"></div>
 </body>
 
