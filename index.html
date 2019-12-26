@@ -121,6 +121,10 @@ an3tom
             var text = getParameterByName("text") || "";
             var response = "Wishing you a merry Christmas and blessed new year,<br>Max"
 
+            window.history.replaceState({
+                page: 1
+            }, document.title, "/Christmas2019/");
+
             if (text) {
                 response = text
             } else if (name) {
@@ -129,9 +133,6 @@ an3tom
             }
 
             document.getElementById("insideText").innerHTML = response;
-            window.history.replaceState({
-                page: 1
-            }, document.title, "/Christmas2019/");
         }
 
         function getParameterByName(name, url) {
