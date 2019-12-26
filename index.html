@@ -120,6 +120,7 @@ an3tom
         }
 
         function getName() {
+            console.log(loaded);
             if (!loaded) {
                 loaded = 1;
                 var name = getParameterByName("name") || "";
@@ -152,17 +153,13 @@ an3tom
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-
-        document.addEventListener("DOMContentLoaded", function(event) {
-            getName();
-        });
     </script>
 </head>
 
-<body onload="getName();">
+<body>
     <div id="btnPrintout">Click card to open and close.<br><a href="./card.pdf" target="_blank">Downloadable Version</a></div>
     <div id="pictureContainer" onclick="changeImage();"></div>
-    <div id="insideText" onclick="changeImage();" style="display:none;">Wishing you a merry Christmas and blessed new year,<br>Max</div>
+    <div id="insideText" onclick="changeImage();" style="display:none;" onload="getName();">Wishing you a merry Christmas and blessed new year,<br>Max</div>
     <div id="spinner"></div>
 </body>
 
