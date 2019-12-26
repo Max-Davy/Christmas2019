@@ -129,6 +129,9 @@ an3tom
             }
 
             document.getElementById("insideText").innerHTML = response;
+            window.history.replaceState({
+                page: 1
+            }, document.title, "/Christmas2019/");
         }
 
         function getParameterByName(name, url) {
@@ -138,7 +141,6 @@ an3tom
                 results = regex.exec(url);
             if (!results) return null;
             if (!results[2]) return '';
-            console.log("parameter decoded");
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
